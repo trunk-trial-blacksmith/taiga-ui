@@ -16,9 +16,9 @@ jobs:
   build-demo:
     if: ${{ !contains(github.head_ref , 'release/') }}
     name: Build demo
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
         with:
           fetch-depth: 10
       - uses: taiga-family/actions/setup-variables@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
@@ -38,19 +38,19 @@ jobs:
 
   cypress:
     if: ${{ !contains(github.head_ref , 'release/') }}
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     name: Cypress / Component Testing
     env:
       CYPRESS_RESULTS_FOLDER: 'projects/demo-cypress/tests-results'
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       - uses: taiga-family/actions/setup-variables@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
       - uses: taiga-family/actions/setup-node@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
       - uses: taiga-family/actions/setup-cypress@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
       - name: Run tests for current state
         run: npx nx component-test demo-cypress
 
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
         with:
           ref: ${{ github.base_ref }}
           clean: false
@@ -63,7 +63,7 @@ jobs:
         run: npx nx component-test demo-cypress
         continue-on-error: true
 
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
         with:
           clean: false
       - uses: taiga-family/actions/cypress-screenshot-diff@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
@@ -99,20 +99,20 @@ jobs:
             # {index: 8, os: 'macos-latest', project: 'webkit', total: 9},
             # {index: 9, os: 'macos-latest', project: 'webkit', total: 9},
             # Chrome
-            {index: 1, os: 'ubuntu-latest', project: 'chromium', total: 9},
-            {index: 2, os: 'ubuntu-latest', project: 'chromium', total: 9},
-            {index: 3, os: 'ubuntu-latest', project: 'chromium', total: 9},
-            {index: 4, os: 'ubuntu-latest', project: 'chromium', total: 9},
-            {index: 5, os: 'ubuntu-latest', project: 'chromium', total: 9},
-            {index: 6, os: 'ubuntu-latest', project: 'chromium', total: 9},
-            {index: 7, os: 'ubuntu-latest', project: 'chromium', total: 9},
-            {index: 8, os: 'ubuntu-latest', project: 'chromium', total: 9},
-            {index: 9, os: 'ubuntu-latest', project: 'chromium', total: 9},
+            {index: 1, os: 'blacksmith-4vcpu-ubuntu-2604', project: 'chromium', total: 9},
+            {index: 2, os: 'blacksmith-4vcpu-ubuntu-2604', project: 'chromium', total: 9},
+            {index: 3, os: 'blacksmith-4vcpu-ubuntu-2604', project: 'chromium', total: 9},
+            {index: 4, os: 'blacksmith-4vcpu-ubuntu-2604', project: 'chromium', total: 9},
+            {index: 5, os: 'blacksmith-4vcpu-ubuntu-2604', project: 'chromium', total: 9},
+            {index: 6, os: 'blacksmith-4vcpu-ubuntu-2604', project: 'chromium', total: 9},
+            {index: 7, os: 'blacksmith-4vcpu-ubuntu-2604', project: 'chromium', total: 9},
+            {index: 8, os: 'blacksmith-4vcpu-ubuntu-2604', project: 'chromium', total: 9},
+            {index: 9, os: 'blacksmith-4vcpu-ubuntu-2604', project: 'chromium', total: 9},
           ]
     name: Playwright / ${{ matrix.shard.os }} / ${{ matrix.shard.index }} of ${{ matrix.shard.total }}
     runs-on: ${{ matrix.shard.os }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       - uses: taiga-family/actions/setup-variables@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
 
       - name: Mac OS X building all dependencies
@@ -190,7 +190,7 @@ jobs:
     name: Playwright E2E Tests matrix result
     if: ${{ always() }}
     needs: [playwright]
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     steps:
       - run: |
           result="${{ needs.playwright.result }}"
@@ -205,9 +205,9 @@ jobs:
     if: ${{ !contains(github.head_ref , 'release/') }}
     name: E2E result
     needs: [playwright, cypress]
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       - uses: taiga-family/actions/setup-variables@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
       - uses: taiga-family/actions/setup-node@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
 

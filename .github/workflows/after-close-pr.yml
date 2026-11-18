@@ -10,12 +10,12 @@ jobs:
     permissions:
       actions: write
       contents: read
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     env:
       GH_TOKEN: ${{ github.token }}
       BRANCH: refs/pull/${{ github.event.number }}/merge
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       - continue-on-error: true
         run: |
           gh cache list --ref $BRANCH > cache.log && cat cache.log
@@ -28,12 +28,12 @@ jobs:
   delete-firebase-channels:
     permissions:
       contents: read
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     timeout-minutes: 10
     env:
       channel: pr${{ github.event.number }}-${{ github.head_ref }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       - name: Drop e2e report site
         uses: w9jds/firebase-action@18be666dd40e1769c63de2dac0e6053e0e8c7349 # v15.34.2
         continue-on-error: true

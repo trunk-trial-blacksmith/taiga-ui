@@ -13,11 +13,11 @@ env:
 
 jobs:
   setup:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     outputs:
       matrix: ${{ steps.matrix.outputs.value }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       - uses: taiga-family/actions/setup-variables@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
       - id: matrix
         if: env.IS_TAIGA_FAMILY_BOT_PR_AUTHOR == 'true'
@@ -30,7 +30,7 @@ jobs:
 
   wait:
     needs: [setup]
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     strategy:
       fail-fast: true
       matrix:
@@ -43,9 +43,9 @@ jobs:
 
   approve:
     needs: [wait]
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       - uses: taiga-family/actions/setup-variables@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
       - uses: taiga-family/actions/auto-approve-double@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
         if: env.IS_TAIGA_FAMILY_BOT_PR_AUTHOR == 'true' && github.event.pull_request.commits == 1

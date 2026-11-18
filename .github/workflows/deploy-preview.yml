@@ -12,7 +12,7 @@ jobs:
       github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' &&
       !contains(github.event.workflow_run.head_branch, 'release/')
     name: Firebase
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     env:
       FIREBASE_PROJECT_ID: taiga-previews-a7bbb
       FIREBASE_SITE: taiga-preview
@@ -21,7 +21,7 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
         with:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
