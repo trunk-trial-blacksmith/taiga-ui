@@ -18,14 +18,14 @@ jobs:
   publish:
     name: Publish
     if: github.event_name == 'push'
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     permissions:
       contents: read
       id-token: write
     outputs:
       version: ${{ steps.info.outputs.version }}
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
         with:
           fetch-depth: 0
       - uses: taiga-family/actions/setup-variables@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
@@ -46,7 +46,7 @@ jobs:
     needs: publish
     # announcement is not a part of the release: never block merge of a release PR
     if: ${{ !contains(needs.publish.outputs.version, 'rc') }}
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     permissions: {}
     steps:
       - name: Announce to Time messenger
@@ -71,12 +71,12 @@ jobs:
   publish-canary:
     name: Publish canary
     if: github.event_name != 'push'
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2604
     permissions:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: useblacksmith/checkout@v1 # v7.0.1
       - uses: taiga-family/actions/setup-variables@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
       - uses: taiga-family/actions/setup-node@81cb55a2c1685e45ea591772e6bc9fd1d6b83765 # v2.24.0
       # TODO: remove once `taiga-family/actions/setup-npm` restores TLS verification itself
